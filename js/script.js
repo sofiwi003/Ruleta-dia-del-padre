@@ -263,6 +263,7 @@ function girar() {
 function finalizarGiro(indice, tipo) {
   gajos.splice(indice, 1);   // descuento del stock global
   guardarStock();            // persistimos el nuevo inventario
+  actualizarStock();         // refrescamos la pantalla de stock
   dibujarRuleta(rotacionActual);
   Sonido.ganar();            // arpegio de celebración
   mostrarModal(tipo);
@@ -301,6 +302,39 @@ function cerrarModal() {
 }
 
 /* ===========================================================================
+   PANTALLA DE STOCK (táctil)
+   Muestra el total restante siempre visible; al tocarla despliega el detalle
+   por tipo. No usa teclado: funciona con toque en tablet.
+   =========================================================================== */
+const pantallaStock = document.getElementById("pantallaStock");
+const psNum = document.getElementById("psNum");
+const psSuf = document.getElementById("psSuf");
+const psBuf = document.getElementById("psBuf");
+const psBil = document.getElementById("psBil");
+const psGif = document.getElementById("psGif");
+
+function contarStock() {
+  const c = { bufanda: 0, billetera: 0, giftcard: 0 };
+  for (const t of gajos) c[t]++;
+  return c;
+}
+
+function actualizarStock() {
+  const c = contarStock();
+  psNum.textContent = gajos.length;
+  psSuf.textContent = (gajos.length === 1) ? "premio restante" : "premios restantes";
+  psBuf.textContent = c.bufanda;
+  psBil.textContent = c.billetera;
+  psGif.textContent = c.giftcard;
+}
+
+// Toque: alterna el detalle desplegado.
+pantallaStock.addEventListener("click", function () {
+  const abierta = pantallaStock.classList.toggle("abierta");
+  pantallaStock.setAttribute("aria-expanded", abierta ? "true" : "false");
+});
+
+/* ===========================================================================
    REINICIO MANUAL DEL INVENTARIO (protegido)
    Dos formas, ambas pensadas para que nadie lo borre por accidente:
      1. Abrir el archivo con  ?reset  en la URL  (ej: ...ruleta-newman.html?reset)
@@ -317,6 +351,7 @@ function reiniciarInventario() {
   modalFondo.setAttribute("aria-hidden", "true");
   botonGirar.textContent = "Girar";
   botonGirar.disabled = false;
+  actualizarStock();
 }
 
 document.addEventListener("keydown", function (e) {
@@ -332,9 +367,11 @@ document.addEventListener("keydown", function (e) {
    ARRANQUE
    =========================================================================== */
 dibujarRuleta(rotacionActual);
+actualizarStock();
 
 // Si lo guardado ya estaba agotado, dejamos el botón bloqueado desde el inicio.
 if (gajos.length === 0) {
   botonGirar.textContent = TEXTO_AGOTADO;
   botonGirar.disabled = true;
 }
+
