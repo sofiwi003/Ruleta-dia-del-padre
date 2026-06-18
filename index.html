@@ -31,6 +31,19 @@
     <button id="botonGirar" class="boton-girar">Girar</button>
   </main>
 
+  <!-- Pantalla de stock: total siempre visible; al tocarla muestra el detalle -->
+  <button id="pantallaStock" class="pantalla-stock" type="button" aria-expanded="false">
+    <span class="ps-compacta">
+      <span class="ps-num" id="psNum">0</span>
+      <span class="ps-suf" id="psSuf">premios restantes</span>
+    </span>
+    <span class="ps-detalle" id="psDetalle">
+      <span><span id="psBuf">0</span> bufandas</span>
+      <span><span id="psBil">0</span> billeteras</span>
+      <span><span id="psGif">0</span> giftcards</span>
+    </span>
+  </button>
+
   <div id="modalFondo" class="modal-fondo" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal">
       <p class="eyebrow">Resultado</p>
@@ -42,3 +55,4 @@
 <script src="js/script.js"></script>
 </body>
 </html>
+
