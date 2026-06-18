@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NEW MAN — Ruleta de Premios</title>
+
+<!-- Inter (cuerpo de texto). Verlag es una fuente con licencia comercial:
+     si está instalada en el sistema se usará; si no, cae a una alternativa
+     geométrica cercana definida en el stack de --fuente-titulo. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <main class="escena">
+    <div class="marca">
+      <img src="img/newman-logo.png" alt="NEW MAN" />
+    </div>
+
+    <div class="ruleta-wrap">
+      <div class="indicador" aria-hidden="true"></div>
+      <canvas id="ruleta" width="460" height="460" role="img"
+              aria-label="Ruleta de premios NEW MAN"></canvas>
+      <div class="pin" aria-hidden="true"></div>
+    </div>
+
+    <button id="botonGirar" class="boton-girar">Girar</button>
+  </main>
+
+  <div id="modalFondo" class="modal-fondo" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal">
+      <p class="eyebrow">Resultado</p>
+      <p id="mensajeModal" class="mensaje"></p>
+      <button id="botonAceptar" class="boton-aceptar">Aceptar</button>
+    </div>
+  </div>
+
+<script src="js/script.js"></script>
+</body>
+</html>

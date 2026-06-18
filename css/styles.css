@@ -1,0 +1,269 @@
+  /* =========================================================================
+     IDENTIDAD NEW MAN
+     Solo dos colores de marca: azul noche #051C2C y greige cálido #D6D2C6.
+     Los gajos usan estos tonos más un puente intermedio derivado de ambos.
+     Títulos: Verlag Bold · Textos: Inter Regular.
+     ========================================================================= */
+  :root {
+    --navy:        #051C2C;  /* azul noche profundo (marca) */
+    --greige:      #D6D2C6;  /* greige cálido (marca)       */
+
+    /* Tonos derivados para gajos y profundidad */
+    --navy-claro:  #0e3a54;  /* navy aclarado, legible sobre el fondo */
+    --puente:      #6f7d80;  /* mezcla apagada entre navy y greige    */
+    --greige-baja: rgba(214, 210, 198, 0.10);
+
+    --fuente-titulo: "Verlag", "Verlag SSm", "Futura", "Century Gothic",
+                     "Avenir Next", "Inter", sans-serif;
+    --fuente-texto:  "Inter", "Segoe UI", Roboto, system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+
+  body {
+    font-family: var(--fuente-texto);
+    color: var(--greige);
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 16px;
+
+    /* Fondo blanco, neutro. */
+    background-color: #ffffff;
+  }
+
+  .escena {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 34px;
+  }
+
+  /* Logo de la marca */
+  .marca { width: 210px; max-width: 56vw; }
+  .marca img { display: block; width: 100%; height: auto; }
+
+  /* -------------------------------------------------------------------------
+     CENTRADO MATEMÁTICO
+     El envoltorio mide exactamente lo que el lienzo; flecha y pin se anclan
+     en absoluto a su centro y a las 12 en punto.
+     ------------------------------------------------------------------------- */
+  .ruleta-wrap {
+    position: relative;
+    width: min(460px, 86vw);
+    aspect-ratio: 1 / 1;   /* siempre cuadrado, escala en móvil */
+  }
+  .ruleta-wrap canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
+
+  /* Flecha indicadora superior (greige), anclada a las 12 en punto */
+  .indicador {
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 17px solid transparent;
+    border-right: 17px solid transparent;
+    border-top: 30px solid var(--greige);
+    filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.6));
+    z-index: 3;
+    pointer-events: none;
+  }
+  .indicador::after {
+    content: "";
+    position: absolute;
+    top: -30px; left: -8px;
+    width: 0; height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 16px solid var(--navy);
+  }
+
+  /* Pin del eje central */
+  .pin {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%,
+                #f1efe9 0%, var(--greige) 42%, #9a978d 100%);
+    box-shadow:
+      inset 0 1px 2px rgba(255, 255, 255, 0.7),
+      inset 0 -2px 5px rgba(0, 0, 0, 0.4),
+      0 4px 10px rgba(0, 0, 0, 0.5);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .pin::after {
+    content: "";
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 35%, #0e3a54, var(--navy));
+  }
+
+  /* -------------------------------------------------------------------------
+     BOTÓN DE GIRO (CTA greige sobre navy, título en Verlag)
+     ------------------------------------------------------------------------- */
+  .boton-girar {
+    appearance: none;
+    border: none;
+    border-radius: 999px;
+    padding: 17px 56px;
+    font-family: var(--fuente-titulo);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--navy);
+    cursor: pointer;
+    background: linear-gradient(180deg, #efece4 0%, var(--greige) 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 12px 26px rgba(0, 0, 0, 0.45);
+    transition: transform 0.15s ease, box-shadow 0.25s ease,
+                opacity 0.25s ease, filter 0.25s ease;
+  }
+  .boton-girar:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.7),
+      0 16px 32px rgba(0, 0, 0, 0.55);
+  }
+  .boton-girar:active:not(:disabled) { transform: translateY(0); }
+  .boton-girar:focus-visible { outline: 2px solid var(--greige); outline-offset: 4px; }
+  .boton-girar:disabled {
+    cursor: not-allowed;
+    color: var(--navy);
+    background: transparent;
+    border: 1px solid rgba(5, 28, 44, 0.35);
+    box-shadow: none;
+    letter-spacing: 0.18em;
+  }
+
+  /* -------------------------------------------------------------------------
+     MODAL DE RESULTADO (con backdrop-filter blur)
+     ------------------------------------------------------------------------- */
+  .modal-fondo {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(3, 16, 26, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 10;
+  }
+  .modal-fondo.visible { opacity: 1; visibility: visible; }
+
+  .modal {
+    width: 100%;
+    max-width: 360px;
+    text-align: center;
+    padding: 38px 32px 30px;
+    border-radius: 22px;
+    background: linear-gradient(180deg, #0a2a3e 0%, #06212f 100%);
+    border: 1px solid rgba(214, 210, 198, 0.18);
+    box-shadow: 0 28px 64px rgba(0, 0, 0, 0.6);
+    transform: translateY(14px) scale(0.96);
+    transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .modal-fondo.visible .modal { transform: translateY(0) scale(1); }
+
+  .modal .eyebrow {
+    font-family: var(--fuente-texto);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: rgba(214, 210, 198, 0.65);
+    margin-bottom: 16px;
+  }
+  .modal .mensaje {
+    font-family: var(--fuente-titulo);
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 1.3;
+    color: var(--greige);
+    margin-bottom: 28px;
+  }
+  .modal .mensaje strong { color: #ffffff; }
+
+  .boton-aceptar {
+    appearance: none;
+    border: none;
+    border-radius: 999px;
+    width: 100%;
+    padding: 14px 0;
+    font-family: var(--fuente-titulo);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--navy);
+    cursor: pointer;
+    background: linear-gradient(180deg, #efece4 0%, var(--greige) 100%);
+    transition: transform 0.15s ease, filter 0.2s ease;
+  }
+  .boton-aceptar:hover { filter: brightness(1.05); }
+  .boton-aceptar:active { transform: scale(0.98); }
+  .boton-aceptar:focus-visible { outline: 2px solid var(--greige); outline-offset: 3px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .modal, .modal-fondo { transition-duration: 0.01ms; }
+  }
+
+  /* -------------------------------------------------------------------------
+     RESPONSIVO — CELULAR
+     La ruleta ya escala sola (min(460px,86vw) + aspect-ratio). Aquí ajustamos
+     espaciados, marca, botón, flecha y pin para que todo respire en pantallas
+     pequeñas sin desalinearse.
+     ------------------------------------------------------------------------- */
+  @media (max-width: 560px) {
+    body { padding: 28px 14px; }
+    .escena { gap: 26px; }
+    .marca { width: 170px; }
+
+    .indicador {
+      border-left-width: 14px;
+      border-right-width: 14px;
+      border-top-width: 25px;
+    }
+    .indicador::after {
+      top: -25px; left: -7px;
+      border-left-width: 7px;
+      border-right-width: 7px;
+      border-top-width: 13px;
+    }
+
+    .pin { width: 22px; height: 22px; }
+    .pin::after { width: 6px; height: 6px; }
+
+    .boton-girar {
+      padding: 15px 40px;
+      font-size: 14px;
+      letter-spacing: 0.2em;
+    }
+    .modal { max-width: 320px; padding: 32px 26px 26px; }
+    .modal .mensaje { font-size: 22px; }
+  }
+
+  @media (max-width: 360px) {
+    .marca { width: 150px; }
+    .boton-girar { padding: 14px 32px; letter-spacing: 0.16em; }
+  }
