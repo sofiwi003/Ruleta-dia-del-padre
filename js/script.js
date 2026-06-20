@@ -12,7 +12,7 @@ const INVENTARIO_INICIAL = { bufanda: 40, billetera: 20, giftcard: 20 };
 const PREMIOS = {
   bufanda:   { etiqueta: "Bufanda",   color: "#051C2C" },
   billetera: { etiqueta: "Billetera", color: "#051C2C" },
-  giftcard:  { etiqueta: "Giftcard de $20.000", color: "#051C2C" }
+  giftcard:  { etiqueta: "Giftcard de $40.000", color: "#051C2C" }
 };
 
 /* Cada unidad de premio es un gajo individual: así la probabilidad queda
