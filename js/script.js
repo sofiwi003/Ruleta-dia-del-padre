@@ -41,7 +41,7 @@ function mezclarFisherYates(arr) {
    funciona perfecto; para varios dispositivos compartiendo stock se necesita
    un servidor.
    --------------------------------------------------------------------------- */
-const CLAVE_STOCK = "newman_ruleta_stock_v1";
+const CLAVE_STOCK = "newman_ruleta_stock_v2";
 
 function guardarStock() {
   try {
